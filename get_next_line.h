@@ -21,11 +21,11 @@
 #include <limits.h>
 #include <fcntl.h>
 #include <string.h>
-size_t ft_strlen(const char *str);
+char	*get_new_line(char *line);
+size_t  ft_strlen(const char *str);
+char    *fetch(char *line);
 char	*get_next_line(int fd);
-int		found_new_line(char *line);
-int		found_new_line(char *line);
-size_t		new_line_len(char *line);
-char	*left_side(char *line);
+int	    found_new_line(char *line);
+size_t	new_line_len(char *line);
 char	*strjoin(char const *s1, char const *s2);
 #endif

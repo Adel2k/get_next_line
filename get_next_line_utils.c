@@ -12,41 +12,67 @@
 
 #include "get_next_line.h"
 
-
 size_t	ft_strlen(const char *str)
 {
 	int	i;
 
 	i = 0;
+	if (str == NULL)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
 }
-
 
 size_t	new_line_len(char *line)
 {
 	int	i;
 
 	i = 0;
+	if (!line || !*line)
+		return (0);
 	while (line[i])
 	{
 		if (line[i] == '\n')
 		{
 			i++;
-			printf("------\n");
 			return (i);
 		}
-		printf("****\n");
 		i++;
 	}
 	return (i);
 }
-
-/*
-int main ()
+char	*strjoin(char const *s1, char const *s2)
 {
-	char *str = "";
-	char *ptr = "bbbbbbb";
-	printf("%s\n", strjoin(str, ptr));
-}*/
+	char	*memory;
+	char	*result;
+	size_t	size;
+
+	if (!s1 && !s2)
+		return (NULL);
+	size = ft_strlen(s1) + ft_strlen(s2);
+	memory = (char *)malloc(size +1);
+	if (!memory)
+		return (NULL);
+	*(memory + size) = 0;
+	result = memory;
+	while (s1 && *s1)
+		*memory++ = *s1++;
+	while (*s2)
+		*memory++ = *s2++;
+	return (result);
+}
+
+int found_new_line(char *line)
+{
+	if (!line || !*line)
+		return (0);
+	while (*line != 0 && *line != '\n')
+		line++;
+	if (*line == '\n')
+		return (1);
+	else
+		return (0);
+}
+
+
