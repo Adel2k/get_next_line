@@ -16,6 +16,7 @@ char	*get_new_line(char *line)
 {
 	char	*next_line;
 	size_t		len;
+
 	int i;
 	i = 0;
 	if(!line || !*line)
@@ -30,7 +31,7 @@ char	*get_new_line(char *line)
 		i++;
 	}
 	next_line[i] = '\n';
-	next_line[len + 1] = 0;
+	next_line[len] = 0;
 	return (next_line);
 }
 
@@ -60,18 +61,11 @@ char	*fetch(char *line)
 	free(line);
 	return (buf);
 }
-char *get_next_line(int fd)
+char	*read_line(int fd, char *line, char *buffer)
 {
-	static char	*line;
-	char	*buffer;
 	int		read_byte;
 
 	read_byte = 1;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return(NULL);
-	buffer = (char *)malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
 	while (!found_new_line(line) && read_byte != 0)
 	{
 		read_byte = read(fd, buffer, BUFFER_SIZE);
@@ -83,27 +77,41 @@ char *get_next_line(int fd)
 		buffer[read_byte] = 0;
 		line = strjoin(line, buffer);
 	}
-//	free(buffer);
+	free(buffer);
+	return (line);
+}
+char *get_next_line(int fd)
+{
+	static char	*line;
+	char	*buffer;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return(NULL);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	line = read_line(fd, line, buffer);
 	if(line == NULL)
 		return (NULL);
+	free(buffer);
 	buffer = get_new_line(line);
 	line = fetch(line);
-  
-  return (buffer);
-
+  	return (buffer);
 }
 
-/*
- int	main()
+
+ /*int	main()
  {
  	char	*str;
- 	int fd = open("example.txt", O_RDONLY);
+	static int i = 0;
+ 	int fd = open("1-brouette.txt", O_RDONLY);
  	while (1)
  	{
  		str = get_next_line(fd);
  		if (!str)
  			break ;
- 		printf("%s", str);
+ 		printf("line = %d, str = %s", i,str);
+		i++;
  		free(str);
  	}
 

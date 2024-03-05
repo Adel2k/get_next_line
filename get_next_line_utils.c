@@ -42,7 +42,7 @@ size_t	new_line_len(char *line)
 	}
 	return (i);
 }
-char	*strjoin(char const *s1, char const *s2)
+char	*strjoin(char *s1, char *s2)
 {
 	char	*memory;
 	char	*result;
