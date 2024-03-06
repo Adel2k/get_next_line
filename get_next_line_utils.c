@@ -6,7 +6,7 @@
 /*   By: aeminian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:26:55 by aeminian          #+#    #+#             */
-/*   Updated: 2024/02/17 16:22:41 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/03/06 17:54:44 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ size_t	new_line_len(char *line)
 	}
 	return (i);
 }
+
 char	*strjoin(char *s1, char *s2)
 {
 	char	*memory;
@@ -63,7 +64,7 @@ char	*strjoin(char *s1, char *s2)
 	return (result);
 }
 
-int found_new_line(char *line)
+int	found_new_line(char *line)
 {
 	if (!line || !*line)
 		return (0);
@@ -74,5 +75,3 @@ int found_new_line(char *line)
 	else
 		return (0);
 }
-
-

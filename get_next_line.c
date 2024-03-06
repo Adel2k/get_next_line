@@ -6,7 +6,7 @@
 /*   By: aeminian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:03:40 by aeminian          #+#    #+#             */
-/*   Updated: 2024/02/17 16:23:03 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/03/06 17:50:17 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 char	*get_new_line(char *line)
 {
 	char	*next_line;
-	size_t		len;
+	size_t	len;
+	int		i;
 
-	int i;
 	i = 0;
-	if(!line || !*line)
+	if (!line || !*line)
 		return (NULL);
 	len = new_line_len(line);
 	next_line = (char *)malloc(len + 1);
@@ -37,9 +37,9 @@ char	*get_new_line(char *line)
 
 char	*fetch(char *line)
 {
-	char *buf;
-	int	i;
-	int j;
+	char	*buf;
+	int		i;
+	int		j;
 
 	i = 0;
 	buf = (char *)malloc(BUFFER_SIZE + 1);
@@ -61,9 +61,10 @@ char	*fetch(char *line)
 	free(line);
 	return (buf);
 }
+
 char	*read_line(int fd, char *line, char *buffer)
 {
-	int		read_byte;
+	int	read_byte;
 
 	read_byte = 1;
 	while (!found_new_line(line) && read_byte != 0)
@@ -80,31 +81,31 @@ char	*read_line(int fd, char *line, char *buffer)
 	free(buffer);
 	return (line);
 }
-char *get_next_line(int fd)
+
+char	*get_next_line(int fd)
 {
 	static char	*line;
-	char	*buffer;
+	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return(NULL);
+		return (NULL);
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
 	line = read_line(fd, line, buffer);
-	if(line == NULL)
+	if (line == NULL)
 		return (NULL);
 	free(buffer);
 	buffer = get_new_line(line);
 	line = fetch(line);
-  	return (buffer);
+	return (buffer);
 }
-
-
- /*int	main()
+/*
+ int	main()
  {
  	char	*str;
 	static int i = 0;
- 	int fd = open("1-brouette.txt", O_RDONLY);
+ 	int fd = open("example.txt", O_RDONLY);
  	while (1)
  	{
  		str = get_next_line(fd);
