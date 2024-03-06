@@ -47,7 +47,7 @@ char	*fetch(char *line)
 		return (NULL);
 	while (line[i] != 0 && line[i] != '\n')
 		i++;
-	if (line [i] == 0)
+	if (line[i] == 0)
 	{
 		free(line);
 		return (NULL);
@@ -76,7 +76,9 @@ char	*read_line(int fd, char *line, char *buffer)
 			return (NULL);
 		}
 		buffer[read_byte] = 0;
+		char *tmp = line;
 		line = strjoin(line, buffer);
+		free(tmp);
 	}
 	free(buffer);
 	return (line);
@@ -95,12 +97,13 @@ char	*get_next_line(int fd)
 	line = read_line(fd, line, buffer);
 	if (line == NULL)
 		return (NULL);
-	free(buffer);
 	buffer = get_new_line(line);
+	// char *tmp = line;
 	line = fetch(line);
+	// free(tmp);
 	return (buffer);
 }
-/*
+
  int	main()
  {
  	char	*str;
@@ -113,9 +116,14 @@ char	*get_next_line(int fd)
  			break ;
  		printf("line = %d, str = %s", i,str);
 		i++;
+		// system("leaks a.out");
  		free(str);
  	}
-
+	while (1)
+	;
+	// system("leaks a.out");
+ 	// 	str = get_next_line(fd);
+	// 	printf("%s",str);
  	return (0);
 
- }*/
+ }
