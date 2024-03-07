@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aeminian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 16:03:40 by aeminian          #+#    #+#             */
-/*   Updated: 2024/03/06 19:41:42 by aeminian         ###   ########.fr       */
+/*   Created: 2024/03/06 19:51:36 by aeminian          #+#    #+#             */
+/*   Updated: 2024/03/06 20:08:23 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_new_line(char *line)
 {
@@ -88,7 +88,7 @@ char	*read_line(int fd, char *line, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*line;
+	static char	*line[OPEN_MAX];
 	char		*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -96,31 +96,10 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	line = read_line(fd, line, buffer);
-	if (line == NULL)
+	line[fd] = read_line(fd, line[fd], buffer);
+	if (line[fd] == NULL)
 		return (NULL);
-	buffer = get_new_line(line);
-	line = fetch(line);
+	buffer = get_new_line(line[fd]);
+	line[fd] = fetch(line[fd]);
 	return (buffer);
 }
-//  int	main()
-//  {
-//  	char	*str;
-// 	static int i = 0;
-//  	int fd = open("example.txt", O_RDONLY);
-//  	// while (1)
-//  	// {
-//  		get_next_line(fd);
-//  		get_next_line(fd);
-//  		// if (!str)
-//  		// 	break ;
-//  		// printf("line = %d, str = %s", i,str);
-// 		// i++;
-//  	// 	free(str);
-//  	// }
-// 	// system("leaks a.out");
-//  	// 	str = get_next_line(fd);
-// 	// 	printf("%s",str);
-//  	return (0);
-
-//  }
